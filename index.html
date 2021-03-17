@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<style>
+*{
+    cursor: red;
+    font-family: 'Press Start 2P', cursive;
+}
+
+.menu-wrap{
+    position: fixed; 
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;      
+}
+
+.menu{
+    position: fixed;
+    background-color: black; 
+    top: 50%;
+    left: 50%;
+    width: 500px; 
+    height: 400px;
+    margin-top: -200px;
+    margin-left: -250px;
+    text-align: center; 
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 7px red,
+        0 0 0 14px blue,
+        0 0 0 21px aquamarine;
+    color: white;
+}
+
+.menu h1{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px    ;
+    margin-left: -150px;
+    margin-top: -150px;
+    font-size: 40px;
+    color: limegreen;
+    animation: score 2s infinite;
+}
+
+.menu h2{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px    ;
+    margin-left: -150px;
+    margin-top: -50px;
+}
+
+@keyframes score {
+  0%   {font-size: 40px}
+  50%   {font-size: 50px}
+  60%   {font-size: 50px}
+
+}
+
+.start-button{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px; 
+    height: 50px; 
+    margin-left: -150px;
+    margin-top: 120px;
+    background-color: rgb(0, 4, 248);
+    color: white;
+    font-size: larger;
+    border-style: none; 
+    border-radius: 10px; 
+}
+
+.pause-menu{
+    display: none;
+    position: fixed;
+    background-color: black; 
+    top: 50%;
+    left: 50%;
+    width: 400px; 
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -200px;
+    text-align: center; 
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 7px red,
+        0 0 0 14px blue,
+        0 0 0 21px aquamarine;
+    color: white;
+}
+
+.pause-menu h2{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    margin-top: -60px;
+    font-size: 40px;
+}
+
+.pause-menu p{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.score{
+    color: white;
+    position: fixed;
+    text-align: center;
+    left: 50%;
+    width: 700px; 
+    height: 50px; 
+    margin-left: -350px;
+    margin-top: 50px;
+    font-size: 40px;
+}
+
+.score span{
+    padding: 0;
+}
+
+.select{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    top: 50%;
+    width: 400px; 
+    height: 50px; 
+    margin-left: -200px;
+    margin-top: 50px;
+}
+
+.select img{
+    width: 100px;
+} 
+
+.stats{
+    position: fixed;
+    top: 50%;
+    width: 200px; 
+    height: 500px; 
+    margin-top: -250px;
+
+}
+
+.stat-content{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    color: white;
+}
+
+.stats img{
+    width: 50px;
+}
+
+.stat-content span{
+    padding-left: 20px;
+    font-size: larger;
+}
+
+
+
+</style>
+
+<html>
+
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+        
+
+<img id="background" src="assets/pictures/background.jpg" style="display: none;">
+<img id="playerModel" src="assets/pictures/playerModel.png" style="display: none;">
+<img id="shot1" src="assets/pictures/shots/shot2_1.png" style="display: none;">
+<img id="shot2" src="assets/pictures/shots/shot2_2.png" style="display: none;">
+<img id="shot3" src="assets/pictures/shots/shot2_3.png" style="display: none;">
+<img id="shot4" src="assets/pictures/shots/shot2_4.png" style="display: none;">
+<img id="shot5" src="assets/pictures/shots/shot2_5.png" style="display: none;">
+<img id="damageUp" src="assets/pictures/damageUp.png" style="display: none;">
+
+<body style="margin: 0; background-color: black;   -webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+user-select: none;          /* Likely future */ 
+overflow: hidden; /* Hide scrollbars */     ">
+
+    <div class="menu-wrap" id ="scoreDisplay">
+        <div class="menu">
+            <div style="margin-top: 20%">
+                <h1>Score</h1>
+                <div class="select">
+                    <div class="">
+                        <img id="model1" src="assets/pictures/model1.png">
+                    </div>
+                    <div class="">
+                        <img id="model2" src="assets/pictures/model2.png" style="width: 200px;">
+                    </div>
+                    <div class="">
+                        <img id="model3" src="assets/pictures/model3.png">
+                    </div>
+                </div>
+                <h2 id="scoreAfter" style="font-size: 30px;">0</h2><br><br>
+                <div>
+                    <button id ="start" class="start-button">Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pause-menu" id="pause">
+        <h2>Pause</h2>
+        <p>Press "P" to resume!</p>
+    </div>
+
+    <div class="score"><span>Score:</span><span id="scoreElement">0</span></div><br>
+    <div style="position: fixed; color: white; margin: 5px;"><span>Speed: </span> <span id="speed">0</span></div>
+
+
+    
+
+    <div class="stats">
+        <div class="stat-content">
+            <img src="assets/pictures/damage.png">
+            <span class="counter" id="damage">0</span>
+        </div>
+        <div class="stat-content">
+            <img src="assets/pictures/shotSpeed.png">
+            <span class="counter" id="shotSpeed">0</span>
+        </div>
+        <div class="stat-content">
+            <img src="assets/pictures/projectileSpeed.png">
+            <span class="counter" id="projectileSpeed">0</span>
+        </div>
+        <div class="stat-content">
+            <img src="assets/pictures/movementSpeed.png">
+            <span class="counter" id="movementSpeed">0</span>
+        </div>
+        <input type="range" min="0" max="100" value="20" class="slider" id="myVol">
+    </div>
+    <canvas></canvas>
+
+</body>
+<script src="index.js" type=""></script>
+</html>
