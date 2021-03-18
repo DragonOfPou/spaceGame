@@ -34,7 +34,7 @@ var rotation = 0
 
 class Circle {
 
-    constructor(x, y, radius, shotSpeed, damage, movementSpeed, projectileSpeed) {
+    constructor(x, y, radius, shotSpeed, damage, movementSpeed, projectileSpeed, health) {
         this.x = x
         this.y = y
         this.radius  = radius
@@ -42,6 +42,8 @@ class Circle {
         this.damage = damage
         this.movementSpeed = movementSpeed
         this.projectileSpeed = projectileSpeed
+        this.health = health
+        this.maxHealth = this.health
     }
     
     draw() {
@@ -279,7 +281,7 @@ let enemies = []
 let powerups = []
 
 function init() {
-    circle = new Circle(centerX, centerY, 30, 150, 10, 6, 4)
+    circle = new Circle(centerX, centerY, 30, 150, 10, 6, 4, 5)
     projectiles = []
     enemies = []
     powerups= []
@@ -289,6 +291,10 @@ function init() {
     scoreElement.innerHTML = 0
     speed.innerHTML = 0
     ingameMusic.play();
+    guiHealth.style.width = `${circle.health / circle.maxHealth * 100}%`
+    guiHealth.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 50%)`
+    guiHealthBackground.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 20%)`
+    guiHealthNumber.innerHTML = `${circle.health} / ${circle.maxHealth}`
 }
 
 let intervalTimer
@@ -303,7 +309,7 @@ function spawnEnemies() {
         //interval -= 400
 
         const radius = Math.random() * (20 - 10) + 10
-        const health = Math.random() * (10 - 3) + 3 + score/1000
+        const enemyHealthValue = Math.random() * (10 - 3) + 3 + score/1000
         let x
         let y
 
@@ -327,9 +333,9 @@ function spawnEnemies() {
         }
 
         if(Math.random() < 0.9){
-            enemies.push(new Enemy(x, y, radius, health, color, velocity))
+            enemies.push(new Enemy(x, y, radius, enemyHealthValue, color, velocity))
         } else{
-            enemies.push(new BossEnemy(x, y, radius, health, color, velocity))
+            enemies.push(new BossEnemy(x, y, radius, enemyHealthValue, color, velocity))
         }
 
     }, interval)
@@ -340,6 +346,10 @@ const guiDamage = document.getElementById("damage")
 const guiShotSpeed = document.getElementById("shotSpeed")
 const guiMovementSpeed = document.getElementById("movementSpeed")
 const guiProjectileSpeed = document.getElementById("projectileSpeed")
+const guiHealth = document.getElementById("health")
+const guiHealthBackground = document.getElementById("healthBackground")
+const guiHealthNumber = document.getElementById("healthNumber")
+
 var lastLoop = new Date()
 let backgroundAnimation = 0
 let backgroundA = 0
@@ -361,6 +371,7 @@ function animate() {
     guiShotSpeed.innerHTML = circle.shotSpeed
     guiMovementSpeed.innerHTML = circle.movementSpeed
     guiProjectileSpeed.innerHTML = circle.projectileSpeed
+    guiDamage.value = circle.damage
 
     // if(backgroundA  < 200){
     //     ctx.drawImage(image, -backgroundAnimation/10, -backgroundAnimation/10, canvas.width + backgroundAnimation/5, canvas.height+backgroundAnimation/5)
@@ -456,6 +467,9 @@ function animate() {
         const dist = Math.hypot(circle.x - enemy.x, circle.y - enemy.y)
 
         if (dist - enemy.radius - circle.radius < 1){
+            circle.health --
+            enemies.splice(indexEnemy, 1)
+        } if(circle.health <= 0){
             cancelAnimationFrame(animationId)
             ingameMusic.pause()
             ingameMusic.currentTime = 0
@@ -463,6 +477,10 @@ function animate() {
             scoreAfter.innerHTML = score
             scoreDisplay.style.display = "flex"
         }
+        guiHealth.style.width = `${circle.health / circle.maxHealth * 100}%`
+        guiHealth.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 50%)`
+        guiHealthBackground.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 20%)`
+        guiHealthNumber.innerHTML = `${circle.health} / ${circle.maxHealth}`
 
         projectiles.forEach((projectile, indexProjectile) => {
             const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y)
