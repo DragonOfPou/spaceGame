@@ -533,7 +533,7 @@ addEventListener('mousemove', e => {
     yPos = e.clientY
 })
 
-addEventListener('toucmove', e => {
+addEventListener('touchmove', e => {
     xPos = e.clientX
     yPos = e.clientY
 })
