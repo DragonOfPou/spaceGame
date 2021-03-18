@@ -518,7 +518,14 @@ addEventListener("mouseup", e => {
 })
 
 addEventListener("touchstart", e => {
-    isShooting = false
+    isShooting = true
+
+    clearInterval(int);
+
+    int = setInterval(function(){
+
+        shoot(xPos, yPos)
+    }, circle.shotSpeed)
 })
 
 addEventListener('mousemove', e => {
