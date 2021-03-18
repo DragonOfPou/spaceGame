@@ -11,6 +11,8 @@ const scoreDisplay = document.getElementById("scoreDisplay")
 const scoreAfter = document.getElementById("scoreAfter")
 const speed = document.getElementById("speed")
 const pause = document.getElementById("pause")
+const highscores = document.getElementById("highscores")
+const highscoresWrap = document.getElementById("highscoresWrap")
 let score = 0
 let isShooting = false
 
@@ -23,13 +25,13 @@ const damageUp = document.getElementById('damageUp');
 
 const model1 = document.getElementById("model1")
 const model2 = document.getElementById("model2")
-const model3 = document.getElementById("model3")
+const model3 = document.getElementById("model3")                            
 const playerModel = model2
 
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-
-
+var highscoresArray = JSON.parse("[" + localStorage.getItem("highscoreList") + "]")
+if(highscoresArray[0] <= 0) {highscoresArray[0] = [0]}
 var rotation = 0
 
 class Circle {
@@ -279,18 +281,23 @@ const centerY = canvas.height / 2
 let projectiles = []
 let enemies = []
 let powerups = []
+let scoreString = highscoresArray.join()
+highscores.innerHTML = scoreString.replaceAll(",", "<br>")
 
 function init() {
-    circle = new Circle(centerX, centerY, 30, 150, 10, 6, 4, 5)
+    scoreDisplay.style.display = "none"
+    highscoresWrap.style.display = "none"
+    gameisRunning = true
+    circle = new Circle(centerX, centerY, 30, 150, 10, 6, 4, 1)
     projectiles = []
     enemies = []
     powerups= []
-    score = 0;
-    interval = 2000;
+    score = 0
+    interval = 2000
     scoreAfter.innerHTML = 0
     scoreElement.innerHTML = 0
     speed.innerHTML = 0
-    ingameMusic.play();
+    ingameMusic.play()
     guiHealth.style.width = `${circle.health / circle.maxHealth * 100}%`
     guiHealth.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 50%)`
     guiHealthBackground.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 20%)`
@@ -360,7 +367,7 @@ function animate() {
     var thisLoop = new Date()
     var fps = 1000 / (thisLoop - lastLoop)
     lastLoop = thisLoop
-    console.log(fps)
+    //console.log(fps)
 
     rotation += Math.PI/100
     // if(rotation >= Math.PI){
@@ -469,14 +476,29 @@ function animate() {
         if (dist - enemy.radius - circle.radius < 1){
             circle.health --
             enemies.splice(indexEnemy, 1)
-        } if(circle.health <= 0){
-            cancelAnimationFrame(animationId)
-            ingameMusic.pause()
-            ingameMusic.currentTime = 0
-            gameisRunning = false
-            scoreAfter.innerHTML = score
-            scoreDisplay.style.display = "flex"
+            } if(circle.health <= 0 && gameisRunning === true){
+                
+                cancelAnimationFrame(animationId)
+                ingameMusic.pause()
+                ingameMusic.currentTime = 0
+                gameisRunning = false
+                scoreAfter.innerHTML = score
+                scoreDisplay.style.display = "flex"
+                highscoresWrap.style.display = "block"
+
+                if(highscoresArray.length < 10){
+                    highscoresArray.push(score)
+                } if(score > highscoresArray[10]){
+                    } else{
+                        highscoresArray.pop()
+                        highscoresArray.push(score)
+                    }
+                highscoresArray.sort(function(a, b){return b-a})
+                localStorage.setItem("highscoreList", highscoresArray)
+                scoreString = highscoresArray.join()
+                highscores.innerHTML = scoreString.replaceAll(",", "<br>")
         }
+
         guiHealth.style.width = `${circle.health / circle.maxHealth * 100}%`
         guiHealth.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 50%)`
         guiHealthBackground.style.background = `hsl(${(circle.health / circle.maxHealth * 120)}, 100%, 20%)`
@@ -508,8 +530,6 @@ function animate() {
 var gameisRunning = false
 
 startButton.addEventListener("click", () => {
-    scoreDisplay.style.display = "none"
-    gameisRunning = true
     init()
     animate()
     spawnEnemies()
