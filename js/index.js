@@ -601,10 +601,12 @@ addEventListener("keydown", (e) => {
                     cancelAnimationFrame(animationId)
                     pause.style.display = "block"
                     ingameMusic.pause()
+                    clearInterval(intervalTimer)
                 }else{
                     requestAnimationFrame(animate)
                     pause.style.display = "none"
                     ingameMusic.play()
+                    spawnEnemies()
             }
         }
     }
