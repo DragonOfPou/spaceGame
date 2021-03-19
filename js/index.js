@@ -56,7 +56,7 @@ function init() {
     scoreDisplay.style.display = "none"
     highscoresWrap.style.display = "none"
     gameIsRunning = true
-    player = new Player(centerX, centerY, 30, 150, 10, 6, 4, 1)
+    player = new Player(playerModel, centerX, centerY, 30, 150, 10, 6, 4, 1)
 
     projectiles = []
     enemies = []

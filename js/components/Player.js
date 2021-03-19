@@ -5,7 +5,8 @@ let isShooting = false
 
 export default class Player {
 
-    constructor(x, y, radius, shotSpeed, damage, movementSpeed, projectileSpeed, health) {
+    constructor(playerModel, x, y, radius, shotSpeed, damage, movementSpeed, projectileSpeed, health) {
+        this.playerModel = playerModel
         this.x = x
         this.y = y
         this.radius  = radius
@@ -34,7 +35,7 @@ export default class Player {
         // }
 
         ctx.rotate(this.rotate)
-        ctx.drawImage(playerModel, -this.radius * 3, -this.radius * 3, this.radius * 6, this.radius * 6);
+        ctx.drawImage(this.playerModel, -this.radius * 3, -this.radius * 3, this.radius * 6, this.radius * 6);
         ctx.restore()
     
     }
