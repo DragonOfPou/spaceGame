@@ -77,7 +77,7 @@ export class BossEnemy extends Enemy {
 
         this.x += this.velocity.x     
         this.y += this.velocity.y
-        if(Math.random() < 0.005){
+        if(Math.random() < 0.002){
             this.createEnemy(enemies)
         }
     }

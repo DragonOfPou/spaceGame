@@ -1,9 +1,9 @@
-const { ['log']: c } = console;
-
 import Player from "./components/Player.js"
 import Projectile from "./components/Projectile.js"
 //import Enemy from "./components/Enemy.js"
 import {Enemy, BossEnemy} from "./components/Enemy.js"
+
+const { ['log']: c } = console
 
 var ingameMusic = new Audio('./assets/sounds/ingame.mp3');
 ingameMusic.loop = true
@@ -259,10 +259,13 @@ function animate() {
                 setTimeout(() => {
 
                     if(enemy.health - player.damage/10 <= 0){
+                        let date = new Date
+                        c("killed enemy", date.getSeconds())
                         enemy.destroy(powerups)
                         enemies.splice(indexEnemy, 1)
                         projectiles.splice(indexProjectile, 1)
                         score += 50
+
                     } else {
                         enemy.health -= player.damage/10
                         projectiles.splice(indexProjectile, 1)
