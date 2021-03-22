@@ -2,13 +2,14 @@ const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
 
 export default class Projectile {
-    constructor(x, y, radius, color, velocity, rotate) {
+    constructor(x, y, radius, color, velocity, rotate, images) {
         this.x = x
         this.y = y
         this.radius  = radius
         this.color = color
         this.velocity = velocity
         this.rotate = rotate
+        this.images = images
         this.animationStatus = 0
     }
 
@@ -33,19 +34,19 @@ export default class Projectile {
 
         switch(true){
             case this.animationStatus < 10:
-                ctx.drawImage(shot1, -50, -50, 100, 100)
+                ctx.drawImage(this.images[0], -50, -50, 100, 100)
                 break
             case this.animationStatus < 20:
-                ctx.drawImage(shot2, -50, -50, 100, 100)
+                ctx.drawImage(this.images[1], -50, -50, 100, 100)
                 break
             case this.animationStatus < 30:
-                ctx.drawImage(shot3, -50, -50, 100, 100)
+                ctx.drawImage(this.images[2], -50, -50, 100, 100)
                 break
             case this.animationStatus < 40:
-                ctx.drawImage(shot4, -50, -50, 100, 100)
+                ctx.drawImage(this.images[3], -50, -50, 100, 100)
                 break
             default:
-                ctx.drawImage(shot5, -50, -50, 100, 100)
+                ctx.drawImage(this.images[4], -50, -50, 100, 100)
                 this.animationStatus = 30
                 break
         }

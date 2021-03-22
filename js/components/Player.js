@@ -1,6 +1,11 @@
-
+import Projectile from "./Projectile.js"
 const canvas = document.querySelector("canvas")
 const ctx = canvas.getContext("2d")
+
+const [shot1, shot2, shot3, shot4, shot5] =
+  ['shot1', 'shot2', 'shot3', 'shot4', 'shot5'].map(id => document.getElementById(id))
+
+var images = [shot1, shot2, shot3, shot4, shot5]
 let isShooting = false
 
 export default class Player {
@@ -37,7 +42,6 @@ export default class Player {
         ctx.rotate(this.rotate)
         ctx.drawImage(this.playerModel, -this.radius * 3, -this.radius * 3, this.radius * 6, this.radius * 6);
         ctx.restore()
-    
     }
 
     move() {
@@ -55,8 +59,21 @@ export default class Player {
             this.x = this.x + this.movementSpeed
         }
     }
-    shoot(){}
-}
+
+    shoot(projectiles){
+        const angle = Math.atan2(yPos - this.y, xPos - this.x)
+    
+        const velocity = {
+            x: Math.cos(angle) * this.projectileSpeed,
+            y: Math.sin(angle) * this.projectileSpeed
+        }
+
+        let rotate = Math.PI/2 + (Math.atan2(xPos - this.x, -(yPos - this.y)))
+
+        projectiles.push(new Projectile(this.x, this.y, 5, "white", velocity, rotate, images))
+        return projectiles
+        }
+    }
 
 let up = false
 let left = false
@@ -96,7 +113,6 @@ addEventListener("keyup", (e) => {
             break
     }
 })
-
 
 var int
 var xPos
